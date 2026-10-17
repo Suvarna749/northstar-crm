@@ -1,0 +1,6 @@
+import { z } from 'zod';
+const email = z.string().trim().email().max(254).or(z.literal('')).optional().transform(v=>v||null);
+export const loginSchema=z.object({email:z.string().trim().email().max(254),password:z.string().min(1).max(200)});
+export const leadSchema=z.object({full_name:z.string().trim().min(2).max(160),phone:z.string().trim().max(30).optional().nullable(),email,company:z.string().trim().max(160).optional().nullable(),source:z.string().trim().max(80).optional().default('Other'),status:z.enum(['New','Contacted','Qualified','Converted','Lost']).optional().default('New'),assigned_to:z.string().uuid().optional().nullable().or(z.literal('')).transform(v=>v||null),follow_up_date:z.string().date().optional().nullable().or(z.literal('')).transform(v=>v||null),notes:z.string().max(10000).optional().nullable()});
+export const employeeSchema=z.object({full_name:z.string().trim().min(2).max(120),email:z.string().trim().email().max(254),password:z.string().min(10).max(200).optional(),phone:z.string().trim().max(30).optional().nullable(),role:z.enum(['ADMIN','EMPLOYEE']).default('EMPLOYEE')});
+export const clientSchema=z.object({full_name:z.string().trim().min(2).max(160),email,phone:z.string().trim().max(30).optional().nullable(),company:z.string().trim().max(160).optional().nullable()});
